@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario coxic</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .download-btn {
+            background-color: #2196F3;
+            margin-left: 10px;
+        }
+
+        .download-btn:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+<a href="index.html" class="back-button">← Volver a la Página Principal</a>
+
+<body>
+    <h1>Formulario coxic</h1>
+    <form id="musicForm">
+        <div class="form-group">
+            <label for="name">Nombre:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="genre">Género musical favorito:</label>
+            <select id="genre" name="genre">
+                <option value="pop">Pop</option>
+                <option value="rock">Rock</option>
+                <option value="jazz">Jazz</option>
+                <option value="classical">Clásica</option>
+                <option value="hiphop">Hip Hop</option>
+                <option value="electronic">Electrónica</option>
+                <option value="other">Otro</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="artist">Artista o banda favorita:</label>
+            <input type="text" id="artist" name="artist">
+        </div>
+
+        <div class="form-group">
+            <label for="comments">artista favorito</label>
+            <textarea id="comments" name="comments"
+                placeholder="Escribe algun comentario sobre mi pagina famulario coxic"></textarea>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Enviar</button>
+            <button type="button" class="download-btn" onclick="downloadComments()">Descargar texto</button>
+        </div>
+    </form>
+
+    <script>
+        function downloadComments() {
+            const comments = document.getElementById('comments').value;
+            if (!comments) {
+                alert('deja un comentario sobre mi pagina.cox.');
+                return;
+            }
+
+            const name = document.getElementById('name').value || 'anonimo';
+            const genre = document.getElementById('genre').value;
+            const artist = document.getElementById('artist').value || 'desconocido';
+
+            const date = new Date();
+            const dateStr = date.toISOString().split('T')[0];
+
+            let content = `Datos musicales - ${dateStr}\n\n`;
+            content += `Nombre: ${name}\n`;
+            content += `Género favorito: ${genre}\n`;
+            content += `Artista/Banda favorita: ${artist}\n\n`;
+            content += `Comentarios:\n${comments}`;
+
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `musica_${name}_${dateStr}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        document.getElementById('musicForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            alert('Formulario enviado (simulado). ¡Gracias por participar!');
+        });
+    </script>
+</body>
+
+</html>
